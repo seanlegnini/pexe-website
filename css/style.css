@@ -151,7 +151,7 @@ img { max-width: 100%; display: block; }
   max-width: var(--max-width);
   margin: 0 auto;
   padding: 160px 32px 64px;
-  min-height: 104vh;
+  min-height: 70vh;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
