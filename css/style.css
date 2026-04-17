@@ -16,8 +16,8 @@
   --driftwood: #9A8F82;
   --charcoal: #2A2520;
   --cream: #E8E0D4;
-  --max-width: 960px;
-  --text-width: 680px;
+  --max-width: 1120px;
+  --text-width: 720px;
 }
 
 /* Reset */
@@ -495,10 +495,9 @@ img { max-width: 100%; display: block; }
    ======================================== */
 .person-full {
   display: grid;
-  grid-template-columns: 200px 1fr;
-  gap: 40px;
-  margin-bottom: 48px;
-  max-width: var(--text-width);
+  grid-template-columns: 220px 1fr;
+  gap: 48px;
+  margin-bottom: 56px;
 }
 
 .person-full:last-of-type {
@@ -513,8 +512,8 @@ img { max-width: 100%; display: block; }
 }
 
 .person-full__photo {
-  width: 200px;
-  height: 240px;
+  width: 220px;
+  height: 264px;
   object-fit: cover;
   border-radius: 4px;
   filter: grayscale(15%);
