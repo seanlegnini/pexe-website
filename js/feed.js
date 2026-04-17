@@ -30,22 +30,20 @@ const CORS_PROXIES = [
 const CACHE_KEY = 'pexe_feed_cache_v2';
 const CACHE_TTL = 10 * 60 * 1000; // 10 minutes
 
-// Helper: fetch through CORS proxies with timeout and fallback
-async function proxyFetch(url, timeoutMs = 6000) {
-  let lastErr;
-  for (const wrap of CORS_PROXIES) {
+// Helper: race all CORS proxies in parallel, first success wins
+async function proxyFetch(url, timeoutMs = 4000) {
+  const attempts = CORS_PROXIES.map(wrap => (async () => {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), timeoutMs);
     try {
-      const controller = new AbortController();
-      const timer = setTimeout(() => controller.abort(), timeoutMs);
       const res = await fetch(wrap(url), { signal: controller.signal });
-      clearTimeout(timer);
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       return await res.text();
-    } catch (err) {
-      lastErr = err;
+    } finally {
+      clearTimeout(timer);
     }
-  }
-  throw lastErr || new Error('all proxies failed');
+  })());
+  return await Promise.any(attempts);
 }
 
 // Fetch Substack posts via JSON API through CORS proxy
@@ -121,12 +119,12 @@ function escapeHtml(str) {
   return div.innerHTML;
 }
 
-function getCachedFeed() {
+function getCachedFeed(opts = {}) {
   try {
     const raw = localStorage.getItem(CACHE_KEY);
     if (!raw) return null;
     const cached = JSON.parse(raw);
-    if (Date.now() - cached.ts > CACHE_TTL) return null;
+    if (!opts.allowStale && Date.now() - cached.ts > CACHE_TTL) return null;
     cached.items.forEach(item => { item.date = new Date(item.date); });
     return cached.items;
   } catch { return null; }
@@ -155,10 +153,10 @@ async function loadFeeds() {
   const container = document.getElementById('feed-container');
   if (!container) return;
 
-  // Show cached content immediately if available
-  const cached = getCachedFeed();
-  if (cached && cached.length > 0) {
-    renderFeed(container, cached);
+  // Show fresh cache immediately if available, then refresh in background
+  const fresh = getCachedFeed();
+  if (fresh && fresh.length > 0) {
+    renderFeed(container, fresh);
     fetchAllFeeds().then(items => {
       if (items.length > 0) {
         setCachedFeed(items);
@@ -168,11 +166,22 @@ async function loadFeeds() {
     return;
   }
 
-  container.innerHTML = '<p class="feed-loading">Loading latest from PEXE…</p>';
+  // Show stale cache (if any) while fetching — beats a loading spinner
+  const stale = getCachedFeed({ allowStale: true });
+  if (stale && stale.length > 0) {
+    renderFeed(container, stale);
+  } else {
+    container.innerHTML = '<p class="feed-loading">Loading latest from PEXE…</p>';
+  }
 
   const display = await fetchAllFeeds();
-  if (display.length > 0) setCachedFeed(display);
-  renderFeed(container, display);
+  if (display.length > 0) {
+    setCachedFeed(display);
+    renderFeed(container, display);
+  } else if (!stale || stale.length === 0) {
+    // Nothing stale, nothing fetched — render the hardcoded fallback
+    renderFeed(container, []);
+  }
 }
 
 function renderFeed(container, items) {
