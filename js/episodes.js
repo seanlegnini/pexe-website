@@ -18,9 +18,10 @@ function stripHtml(html) {
 }
 
 const EPISODE_PROXIES = [
-  url => url, // try direct first — iTunes Lookup has CORS
-  url => `https://corsproxy.io/?${encodeURIComponent(url)}`,
-  url => `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`
+  url => `/api/proxy?url=${encodeURIComponent(url)}`,
+  url => url, // direct — iTunes Lookup usually allows CORS but some browsers/networks block
+  url => `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,
+  url => `https://corsproxy.io/?${encodeURIComponent(url)}`
 ];
 
 async function raceFetch(url, timeoutMs = 5000) {

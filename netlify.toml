@@ -2,6 +2,14 @@
 # JS/CSS are loaded with ?v= query strings so the browser treats bumped
 # versions as new resources and we don't need long caching here.
 
+[build]
+  functions = "netlify/functions"
+
+[[redirects]]
+  from = "/api/proxy"
+  to = "/.netlify/functions/proxy"
+  status = 200
+
 [[headers]]
   for = "/"
   [headers.values]

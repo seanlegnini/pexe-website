@@ -22,9 +22,12 @@ const SUBSTACK_FEEDS = [
 ];
 
 const PODCAST_APPLE_ID = '1876957994';
+// Netlify Function as primary proxy (reliable, whitelisted to feed hosts).
+// Public proxies are fallbacks for local dev and for belt-and-suspenders.
 const CORS_PROXIES = [
-  url => `https://corsproxy.io/?${encodeURIComponent(url)}`,
-  url => `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`
+  url => `/api/proxy?url=${encodeURIComponent(url)}`,
+  url => `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,
+  url => `https://corsproxy.io/?${encodeURIComponent(url)}`
 ];
 
 const CACHE_KEY = 'pexe_feed_cache_v2';
@@ -66,16 +69,12 @@ async function fetchSubstack(feed) {
   }
 }
 
-// Fetch podcast episodes via Apple iTunes Lookup API (no proxy needed)
+// Fetch podcast episodes via Apple iTunes Lookup API
 async function fetchPodcast() {
   try {
-    const controller = new AbortController();
-    const timer = setTimeout(() => controller.abort(), 6000);
     const url = `https://itunes.apple.com/lookup?id=${PODCAST_APPLE_ID}&media=podcast&entity=podcastEpisode&limit=3`;
-    const res = await fetch(url, { signal: controller.signal });
-    clearTimeout(timer);
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    const data = await res.json();
+    const raw = await proxyFetch(url);
+    const data = JSON.parse(raw);
     return data.results
       .filter(r => r.wrapperType === 'podcastEpisode')
       .map(ep => ({
