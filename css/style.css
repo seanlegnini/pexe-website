@@ -178,7 +178,6 @@ img { max-width: 100%; display: block; }
   line-height: 1.75;
   color: var(--charcoal);
   font-weight: 300;
-  max-width: var(--text-width);
 }
 
 .stanza__text em {
