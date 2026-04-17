@@ -22,21 +22,30 @@ const SUBSTACK_FEEDS = [
 ];
 
 const PODCAST_APPLE_ID = '1876957994';
-const CORS_PROXY = 'https://api.codetabs.com/v1/proxy?quest=';
+const CORS_PROXIES = [
+  url => `https://corsproxy.io/?${encodeURIComponent(url)}`,
+  url => `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`
+];
 
-const CACHE_KEY = 'pexe_feed_cache';
+const CACHE_KEY = 'pexe_feed_cache_v2';
 const CACHE_TTL = 10 * 60 * 1000; // 10 minutes
 
-// Helper: fetch through CORS proxy with timeout
+// Helper: fetch through CORS proxies with timeout and fallback
 async function proxyFetch(url, timeoutMs = 6000) {
-  const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), timeoutMs);
-  const res = await fetch(CORS_PROXY + encodeURIComponent(url), {
-    signal: controller.signal
-  });
-  clearTimeout(timer);
-  if (!res.ok) throw new Error(`HTTP ${res.status}`);
-  return await res.text();
+  let lastErr;
+  for (const wrap of CORS_PROXIES) {
+    try {
+      const controller = new AbortController();
+      const timer = setTimeout(() => controller.abort(), timeoutMs);
+      const res = await fetch(wrap(url), { signal: controller.signal });
+      clearTimeout(timer);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      return await res.text();
+    } catch (err) {
+      lastErr = err;
+    }
+  }
+  throw lastErr || new Error('all proxies failed');
 }
 
 // Fetch Substack posts via JSON API through CORS proxy
@@ -50,7 +59,8 @@ async function fetchSubstack(feed) {
       link: post.canonical_url || `https://${feed.subdomain}.substack.com/p/${post.slug}`,
       date: new Date(post.post_date),
       source: feed.source,
-      type: feed.type
+      type: feed.type,
+      description: post.subtitle || post.description || post.truncated_body_text || ''
     }));
   } catch (err) {
     console.warn(`Failed to fetch ${feed.source}:`, err);
@@ -75,7 +85,8 @@ async function fetchPodcast() {
         link: ep.trackViewUrl || ep.collectionViewUrl,
         date: new Date(ep.releaseDate),
         source: 'The Line',
-        type: 'podcast'
+        type: 'podcast',
+        description: ep.description || ep.shortDescription || ''
       }));
   } catch (err) {
     console.warn('Failed to fetch podcast:', err);
@@ -96,6 +107,18 @@ function badgeClass(type) {
 function badgeLabel(type) {
   const labels = { podcast: 'PODCAST', essay: 'ESSAY', roundup: 'ROUNDUP' };
   return labels[type] || 'POST';
+}
+
+function stripHtml(html) {
+  const tmp = document.createElement('div');
+  tmp.innerHTML = html || '';
+  return (tmp.textContent || tmp.innerText || '').trim();
+}
+
+function escapeHtml(str) {
+  const div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
 }
 
 function getCachedFeed() {
@@ -188,7 +211,9 @@ function renderFeed(container, items) {
     return;
   }
 
-  container.innerHTML = items.map(item => `
+  container.innerHTML = items.map(item => {
+    const desc = stripHtml(item.description);
+    return `
     <a class="feed-item" href="${item.link}" target="_blank" rel="noopener">
       <div class="feed-item__meta">
         <span class="${badgeClass(item.type)}">${badgeLabel(item.type)}</span>
@@ -196,8 +221,10 @@ function renderFeed(container, items) {
         <span class="feed-item__date">${formatDate(item.date)}</span>
       </div>
       <div class="feed-item__title">${item.title}</div>
+      ${desc ? `<p class="feed-item__description">${escapeHtml(desc)}</p>` : ''}
     </a>
-  `).join('');
+  `;
+  }).join('');
 }
 
 // Run on page load

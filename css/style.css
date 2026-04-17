@@ -45,7 +45,7 @@ img { max-width: 100%; display: block; }
    Navigation
    ======================================== */
 .site-nav {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   right: 0;
@@ -271,6 +271,20 @@ img { max-width: 100%; display: block; }
   transition: color 0.2s ease;
 }
 .feed-item:hover .feed-item__title { color: var(--forest); }
+
+.feed-item__description {
+  font-family: 'Source Serif 4', Georgia, serif;
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--umber);
+  margin-top: 6px;
+  max-width: var(--text-width);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
 
 .feed-loading {
   font-family: 'DM Sans', sans-serif;
