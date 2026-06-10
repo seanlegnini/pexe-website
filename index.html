@@ -3,59 +3,67 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PEXE Lab — The Phenomenology & Experiential Education Lab</title>
-  <meta name="description" content="PEXE Lab is a phenomenology and experiential education lab — a working space for two questions: what is it to teach, and what is it to learn?">
-  <link rel="icon" type="image/png" href="img/Favicon.png">
+  <title>The PEXE Lab — The Phenomenology &amp; Experiential Education Lab</title>
+  <meta name="description" content="The PEXE Lab is a phenomenology and experiential education lab — a working space for two questions: what is it to teach, and what is it to learn?">
+  <link rel="icon" type="image/svg+xml" href="assets/logos/favicon.svg">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
   <!-- Navigation -->
   <nav class="site-nav">
-    <a href="index.html" class="site-nav__title">PEXE Lab</a>
+    <a href="index.html" class="site-nav__title"><img src="assets/logos/favicon.svg" alt="">The PEXE Lab</a>
     <input type="checkbox" id="nav-toggle" class="nav-toggle">
     <label for="nav-toggle" class="nav-toggle-label">Menu</label>
     <ul class="site-nav__links">
+      <li><a href="trailhead.html">Trailhead</a></li>
       <li><a href="orientation.html">Orientation</a></li>
       <li><a href="people.html">People</a></li>
       <li><a href="research.html">Research</a></li>
       <li><a href="the-line.html">The Line</a></li>
+      <li><a href="write-to-us.html">Write to Us</a></li>
     </ul>
   </nav>
 
-  <!-- Hero + Opening Stanza -->
-  <section class="hero">
-    <div class="hero__inner">
-      <header class="stanza">
-        <p class="stanza__label">The Phenomenology &amp; Experiential Education Lab</p>
-        <p class="stanza__text">
-          PEXE Lab is a phenomenology and experiential education lab — a working space for two questions: <em>what is it to teach,</em> and <em>what is it to learn?</em> "Experiential" is a word worth reclaiming. It's been thinned to a shorthand for field trips and hands-on activities; we think experience itself deserves more careful attention than that, and recovering what it can mean is part of the work. That recovery is phenomenological work — slow, careful, grounded in lived experience — and we're doing it in public, through essays, a podcast, and ongoing research. Come think alongside us.
-        </p>
-      </header>
-    </div>
+  <!-- Hero — full-bleed photo, stanza cutting into it -->
+  <img class="hero__photo"
+       src="img/hero-1280.jpg"
+       srcset="img/hero-800.jpg 800w, img/hero-1280.jpg 1280w, img/hero-1920.jpg 1920w"
+       sizes="100vw"
+       width="1920" height="1280"
+       fetchpriority="high"
+       alt="Snow-streaked mountains opening onto still water in an Alaskan fjord, under a wide, clouded sky"
+       style="display:block; width:100%; max-width:none; height:28vh; min-height:0; object-fit:cover; border-radius:0; margin-top:73px;">
+  <section class="hero" data-screen-label="Home" style="padding-top:0;">
+    <header class="hero__stanza" style="max-width:none; margin-left:0;">
+      <p class="stanza__label">The Phenomenology &amp; Experiential Education Lab</p>
+      <p class="stanza__text">
+        PEXE Lab is a phenomenology and experiential education lab — a working space for two questions: <em>what is it to teach</em> and <em>what is it to learn?</em> 'Experiential' is a word worth reclaiming with careful attention. That recovery is phenomenological work that we do slowly, carefully, and grounded in lived experience through essays, podcasts, and ongoing research. Come think alongside us.
+      </p>
+      <a href="trailhead.html" class="stanza__cta">New here? Start at the Trailhead →</a>
+    </header>
   </section>
 
-  <div class="divider"></div>
+  <div class="topo-divider" style="margin-top:64px"><img src="assets/logos/favicon.svg" alt=""></div>
 
   <!-- Latest from PEXE (RSS Feed) -->
   <section class="feed">
     <div class="feed__frame">
       <div class="feed__header">
         <h2 class="section-label">Latest from PEXE</h2>
-        <div class="feed__nav" id="feed-nav" hidden>
+        <div class="feed__nav" id="feed-nav">
           <button type="button" data-dir="prev" aria-label="Scroll to previous items">&#8592;</button>
           <button type="button" data-dir="next" aria-label="Scroll to more items">&#8594;</button>
         </div>
       </div>
-      <div id="feed-container">
-        <p class="feed-loading">Loading latest from PEXE…</p>
-      </div>
+      <!-- js/feed.js populates this container with RSS items (Substacks + podcast). -->
+      <div id="feed-container"></div>
     </div>
   </section>
 
-  <div class="divider"></div>
+  <div class="topo-divider"><img src="assets/logos/favicon.svg" alt=""></div>
 
-  <!-- People (compact homepage version) -->
+  <!-- People (compact homepage capsules) -->
   <section class="people-grid">
     <div class="people-grid__header">
       <h2 class="section-label">People</h2>
@@ -63,30 +71,49 @@
 
     <!-- Matthew -->
     <div class="person-card">
-      <h3 class="person-card__name">Matthew Kruger-Ross</h3>
-      <p class="person-card__role">Professor, West Chester University</p>
-      <p class="person-card__bio">
-        His guiding question — <em>what is it to teach?</em> — leads into the lived experience of being a philosophical educator, advising doctoral students, and navigating the encounter with AI in higher education. His work draws on Heidegger's hermeneutic phenomenology.
-      </p>
-      <div class="person-card__links">
-        <a href="https://matthewkr.substack.com" class="person-card__link" target="_blank">Substack</a>
-        <a href="https://www.instagram.com/mjkrugerross/" class="person-card__link" target="_blank">Instagram</a>
-        <!-- UPDATE: Add Matthew's CV link when available -->
-        <a href="people.html" class="person-card__link">Full bio →</a>
+      <div class="person-card__photo">
+        <img src="img/matthew-240.jpg"
+             srcset="img/matthew-240.jpg 240w, img/matthew-600.jpg 600w"
+             sizes="92px"
+             width="240" height="360"
+             loading="lazy"
+             alt="Matthew Kruger-Ross, smiling in a colorful plaid scarf">
+      </div>
+      <div class="person-card__body">
+        <h3 class="person-card__name">Matthew Kruger-Ross</h3>
+        <p class="person-card__role">Professor, West Chester University</p>
+        <p class="person-card__bio">
+          His guiding question — <em>what is it to teach?</em> — leads into the lived experience of being a philosophical educator, advising doctoral students, and navigating the encounter with AI in higher education. His work draws on Heidegger's hermeneutic phenomenology.
+        </p>
+        <div class="person-card__links">
+          <a href="https://matthewkr.substack.com" class="person-card__link" target="_blank" rel="noopener">Substack</a>
+          <a href="https://www.instagram.com/mjkrugerross/" class="person-card__link" target="_blank" rel="noopener">Instagram</a>
+          <a href="people.html" class="person-card__link">Full bio →</a>
+        </div>
       </div>
     </div>
 
     <!-- Sean -->
     <div class="person-card">
-      <h3 class="person-card__name">Sean Legnini</h3>
-      <p class="person-card__role">EdD Candidate, West Chester University</p>
-      <p class="person-card__bio">
-        His guiding question — <em>what is it to learn?</em> — grounds a dissertation on learning as dwelling, drawing on Merleau-Ponty, Heidegger, Casey, and Abram to argue that placed, embodied learning is ontological transformation.
-      </p>
-      <div class="person-card__links">
-        <a href="https://seanisdwelling.substack.com" class="person-card__link" target="_blank">Substack</a>
-        <a href="https://www.instagram.com/seanisdwelling/" class="person-card__link" target="_blank">Instagram</a>
-        <a href="people.html" class="person-card__link">Full bio →</a>
+      <div class="person-card__photo">
+        <img src="img/sean-240.jpg"
+             srcset="img/sean-240.jpg 240w, img/sean-600.jpg 600w"
+             sizes="92px"
+             width="240" height="180"
+             loading="lazy"
+             alt="Sean Legnini on a boat in Alaska, holding a piece of glacier ice overhead">
+      </div>
+      <div class="person-card__body">
+        <h3 class="person-card__name">Sean Legnini</h3>
+        <p class="person-card__role">EdD Candidate, West Chester University</p>
+        <p class="person-card__bio">
+          His guiding question — <em>what is it to learn?</em> — grounds a dissertation exploring how we learn when we are entangled in ecological settings. His work draws on Merleau-Ponty, Serres, Heidegger, Ahmed, and Abram to argue that entangled learning is ontological transformation.
+        </p>
+        <div class="person-card__links">
+          <a href="https://seanisdwelling.substack.com" class="person-card__link" target="_blank" rel="noopener">Substack</a>
+          <a href="https://www.instagram.com/seanisdwelling/" class="person-card__link" target="_blank" rel="noopener">Instagram</a>
+          <a href="people.html" class="person-card__link">Full bio →</a>
+        </div>
       </div>
     </div>
   </section>
@@ -94,22 +121,19 @@
   <!-- Footer -->
   <footer class="site-footer">
     <div class="site-footer__left">
-      <img src="img/pexe-logo.png?v=2" alt="PEXE Lab" class="site-footer__logo">
-      <p class="site-footer__brand-sub">
-        <em>An ongoing inquiry into phenomenology and education</em>
-      </p>
+      <img src="assets/logos/favicon.svg" alt="The PEXE Lab" class="site-footer__logo">
+      <p class="site-footer__brand-sub">An ongoing inquiry into phenomenology and education</p>
     </div>
     <div class="site-footer__right">
       <a href="mailto:contact@pexelab.org" class="site-footer__contact">contact@pexelab.org</a>
       <div class="site-footer__social">
-        <a href="https://www.instagram.com/seanisdwelling/" target="_blank">Instagram (Sean)</a>
-        <a href="https://www.instagram.com/mjkrugerross/" target="_blank">Instagram (Matthew)</a>
-        <a href="https://www.youtube.com/@ThePEXELab" target="_blank">YouTube</a>
+        <a href="https://www.instagram.com/ThePEXELab/" target="_blank" rel="noopener">Instagram</a>
+        <a href="https://www.youtube.com/@ThePEXELab" target="_blank" rel="noopener">YouTube</a>
       </div>
-      <p class="site-footer__copy">© 2026 PEXE Lab</p>
+      <p class="site-footer__copy">© 2026 The PEXE Lab</p>
     </div>
   </footer>
 
-  <script src="js/feed.js?v=5"></script>
+  <script src="js/feed.js?v=6"></script>
 </body>
 </html>

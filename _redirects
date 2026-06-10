@@ -1,0 +1,16 @@
+# Old Squarespace paths → new site equivalents
+# (the /api/proxy function redirect lives in netlify.toml)
+
+/about-the-lab          /orientation.html   301
+/about                  /orientation.html   301
+/the-team               /people.html        301
+/team                   /people.html        301
+/podcast                /the-line.html      301
+/the-line               /the-line.html      301
+/a-pedagogy-of-dwelling /research.html      301
+/inquiry                /research.html      301
+/research-projects      /research.html      301
+/conferences            /research.html      301
+/contact                /write-to-us.html   301
+/contact-us             /write-to-us.html   301
+/home                   /                   301

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trailhead — The PEXE Lab</title>
+  <meta name="description" content="New to the PEXE Lab? Three good ways in — an essay, an episode, and an open invitation.">
+  <link rel="icon" type="image/svg+xml" href="assets/logos/favicon.svg">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <nav class="site-nav">
+    <a href="index.html" class="site-nav__title"><img src="assets/logos/favicon.svg" alt="">The PEXE Lab</a>
+    <input type="checkbox" id="nav-toggle" class="nav-toggle">
+    <label for="nav-toggle" class="nav-toggle-label">Menu</label>
+    <ul class="site-nav__links">
+      <li><a href="trailhead.html" class="active">Trailhead</a></li>
+      <li><a href="orientation.html">Orientation</a></li>
+      <li><a href="people.html">People</a></li>
+      <li><a href="research.html">Research</a></li>
+      <li><a href="the-line.html">The Line</a></li>
+      <li><a href="write-to-us.html">Write to Us</a></li>
+    </ul>
+  </nav>
+
+  <main class="page-content" data-screen-label="Trailhead">
+    <h1 class="sr-only">Trailhead</h1>
+
+    <div class="trail-intro">
+      <span class="eyebrow">New here? Start at the Trailhead.</span>
+      <p>The PEXE Lab is two people and two open questions — <em>what is it to teach</em> and <em>what is it to learn?</em> We think about them in public through essays, podcasts, and ongoing research. Here's a trail through our thinking to get you started:</p>
+    </div>
+
+    <div class="trail">
+      <div class="trail__line" aria-hidden="true">
+        <svg viewBox="0 0 48 600" preserveAspectRatio="none" fill="none">
+          <path d="M24 0 C 39 78, 39 138, 24 208 C 10 272, 10 336, 24 404 C 39 472, 39 532, 24 600"
+                stroke="#C4B9A8" stroke-width="2" stroke-linecap="round" stroke-dasharray="0.5 9" vector-effect="non-scaling-stroke" />
+        </svg>
+      </div>
+
+      <a href="https://seanisdwelling.substack.com/p/what-david-abrams-spell-of-the-sensuous" class="door" target="_blank" rel="noopener">
+        <span class="door__mark"><img src="assets/logos/profile-pic.svg" alt=""></span>
+        <span class="door__body">
+          <span class="door__k">Read · one essay</span>
+          <span class="door__t">What David Abram's <em>Spell of the Sensuous</em> Might Teach Us About Education</span>
+          <span class="door__d">A clear way into how we're thinking about education and the world it resides in.</span>
+        </span>
+      </a>
+
+      <a href="https://www.youtube.com/watch?v=h00_LpUSpgs" class="door" target="_blank" rel="noopener">
+        <span class="door__mark"><img src="assets/logos/profile-pic.svg" alt=""></span>
+        <span class="door__body">
+          <span class="door__k">Listen · one episode</span>
+          <span class="door__t">Ep. 8 — Zach Juliano: Sean's Bad Back and Phenomenological Physical Therapy</span>
+          <span class="door__d">Listen to an episode of The Line where we work through the social ethics of AI as they are created.</span>
+        </span>
+      </a>
+
+      <a href="write-to-us.html" class="door">
+        <span class="door__mark"><img src="assets/logos/profile-pic.svg" alt=""></span>
+        <span class="door__body">
+          <span class="door__k">Say hello · write to us</span>
+          <span class="door__t">If your questions are our questions</span>
+          <span class="door__d">Then send us a note. We are always interested in conversations with others thinking the way we are.</span>
+        </span>
+      </a>
+    </div>
+
+    <p class="trail-close">Want the whole picture of how we think? That lives in the <a href="orientation.html">Orientation →</a></p>
+
+  </main>
+
+  <script>
+    // Anchor the winding trail line precisely between the first and last node centers,
+    // so it never over-runs below the last door regardless of content height.
+    (function () {
+      var trail = document.querySelector('.trail');
+      if (!trail) return;
+      var line = trail.querySelector('.trail__line');
+      var marks = trail.querySelectorAll('.door__mark');
+      function place() {
+        if (marks.length < 2) return;
+        var tr = trail.getBoundingClientRect();
+        var first = marks[0].getBoundingClientRect();
+        var last = marks[marks.length - 1].getBoundingClientRect();
+        var top = (first.top + first.height / 2) - tr.top;
+        var bottom = (last.top + last.height / 2) - tr.top;
+        line.style.top = top + 'px';
+        line.style.height = Math.max(0, bottom - top) + 'px';
+      }
+      place();
+      window.addEventListener('resize', place);
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(place);
+      window.addEventListener('load', place);
+    })();
+  </script>
+
+  <footer class="site-footer">
+    <div class="site-footer__left">
+      <img src="assets/logos/favicon.svg" alt="The PEXE Lab" class="site-footer__logo">
+      <p class="site-footer__brand-sub">An ongoing inquiry into phenomenology and education</p>
+    </div>
+    <div class="site-footer__right">
+      <a href="mailto:contact@pexelab.org" class="site-footer__contact">contact@pexelab.org</a>
+      <div class="site-footer__social">
+        <a href="https://www.instagram.com/ThePEXELab/" target="_blank" rel="noopener">Instagram</a>
+        <a href="https://www.youtube.com/@ThePEXELab" target="_blank" rel="noopener">YouTube</a>
+      </div>
+      <p class="site-footer__copy">© 2026 The PEXE Lab</p>
+    </div>
+  </footer>
+
+</body>
+</html>
