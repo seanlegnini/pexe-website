@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>PEXE Lab — The Phenomenology & Experiential Education Lab</title>
   <meta name="description" content="PEXE Lab is a phenomenology and experiential education lab — a working space for two questions: what is it to teach, and what is it to learn?">
+  <link rel="icon" type="image/png" href="img/Favicon.png">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -39,7 +40,13 @@
   <!-- Latest from PEXE (RSS Feed) -->
   <section class="feed">
     <div class="feed__frame">
-      <h2 class="section-label">Latest from PEXE</h2>
+      <div class="feed__header">
+        <h2 class="section-label">Latest from PEXE</h2>
+        <div class="feed__nav" id="feed-nav" hidden>
+          <button type="button" data-dir="prev" aria-label="Scroll to previous items">&#8592;</button>
+          <button type="button" data-dir="next" aria-label="Scroll to more items">&#8594;</button>
+        </div>
+      </div>
       <div id="feed-container">
         <p class="feed-loading">Loading latest from PEXE…</p>
       </div>
